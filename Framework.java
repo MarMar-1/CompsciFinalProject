@@ -55,13 +55,13 @@ public class Framework extends Canvas{
 	private void LoadContent()
 	{
 		try
-        {
-            URL menuImgUrl = this.getClass().getResource("/CompsciFinalProject/resources/images/menu.jpg");
-            menuImg = ImageIO.read(menuImgUrl);
-        }
-        catch (IOException ex) {
-            Logger.getLogger(Framework.class.getName()).log(Level.SEVERE, null, ex);
-        }
+		{
+			URL menuImgUrl = this.getClass().getResource("/CompsciFinalProject/resources/images/menu.jpg");
+			menuImg = ImageIO.read(menuImgUrl);
+		}
+		catch (IOException ex) {
+			Logger.getLogger(Framework.class.getName()).log(Level.SEVERE, null, ex);
+		}
 	}
 
 	private void GameLoop()
@@ -132,29 +132,29 @@ public class Framework extends Canvas{
     @Override
     public void Draw(Graphics2D g2d)
     {
-        switch (gameState)
-        {
-            case PLAYING:
-                game.Draw(g2d, mousePosition());
-            break;
-            case GAMEOVER:
-                game.DrawGameOver(g2d, mousePosition());
-            break;
-            case MAIN_MENU:
-                g2d.drawImage(menuImg, 0, 0, frameWidth, frameHeight, null);
-                g2d.drawString("Use left mouse button place tupacs in order to trap boofpac.", frameWidth / 2 - 83, (int)(frameHeight * 0.65));   
-                g2d.drawString("Click with left mouse button to start the game.", frameWidth / 2 - 100, (int)(frameHeight * 0.67));                
-                g2d.drawString("Press ESC any time to exit the game.", frameWidth / 2 - 75, (int)(frameHeight * 0.70));
-                g2d.setColor(Color.white);
-            break;
-            case OPTIONS:
+    	switch (gameState)
+    	{
+    		case PLAYING:
+    		game.Draw(g2d, mousePosition());
+    		break;
+    		case GAMEOVER:
+    		game.DrawGameOver(g2d, mousePosition());
+    		break;
+    		case MAIN_MENU:
+    		g2d.drawImage(menuImg, 0, 0, frameWidth, frameHeight, null);
+    		g2d.drawString("Use left mouse button place tupacs in order to trap boofpac.", frameWidth / 2 - 83, (int)(frameHeight * 0.65));   
+    		g2d.drawString("Click with left mouse button to start the game.", frameWidth / 2 - 100, (int)(frameHeight * 0.67));                
+    		g2d.drawString("Press ESC any time to exit the game.", frameWidth / 2 - 75, (int)(frameHeight * 0.70));
+    		g2d.setColor(Color.white);
+    		break;
+    		case OPTIONS:
                 //...
-            break;
-            case GAME_CONTENT_LOADING:
-                g2d.setColor(Color.white);
-                g2d.drawString("GAME is LOADING", frameWidth / 2 - 50, frameHeight / 2);
-            break;
-        }
+    		break;
+    		case GAME_CONTENT_LOADING:
+    		g2d.setColor(Color.white);
+    		g2d.drawString("GAME is LOADING", frameWidth / 2 - 50, frameHeight / 2);
+    		break;
+    	}
     }
 
     private void newGame()
