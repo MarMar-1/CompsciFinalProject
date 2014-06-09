@@ -22,7 +22,7 @@ public class Framework extends Canvas{
 
 	private final int GAME_FPS = 60;
 	private final long GAME_UPDATE_PERIOD = secInNanosec / GAME_FPS;
-	public static enum GameState{STARTING, VISUALIZING, GAME_CONTENT_LOADING, MAIN_MENU, OPTIONS, PLAYING, GAMEOVER, DESTROYED}
+	public static enum GameState{STARTING, VISUALIZING, GAME_CONTENT_LOADING, MAIN_MENU, OPTIONS, PLAYING, GAMEOVER, VICTORY}
 	public static GameState gameState;
 
 	private long gameTime;
@@ -30,7 +30,7 @@ public class Framework extends Canvas{
 
 	private Game game;
 
-	private BufferedImage shootTheDuckMenuImg;
+	private BufferedImage menuImg;
 
 	public Framework ()
 	{
@@ -140,15 +140,21 @@ public class Framework extends Canvas{
     		case GAMEOVER:
     		game.DrawGameOver(g2d, mousePosition());
     		break;
+    		case VICTORY:
+    		game.DrawVictory(g2d, mousePosition());
+    		break;
     		case MAIN_MENU:
-    		g2d.drawImage(menuImg, 0, 0, frameWidth, frameHeight, null);
-    		g2d.drawString("Use left mouse button place tupacs in order to trap boofpac.", frameWidth / 2 - 83, (int)(frameHeight * 0.65));   
-    		g2d.drawString("Click with left mouse button to start the game.", frameWidth / 2 - 100, (int)(frameHeight * 0.67));                
-    		g2d.drawString("Press ESC any time to exit the game.", frameWidth / 2 - 75, (int)(frameHeight * 0.70));
+    		g2d.drawImage(menuImg, (frameWidth - 732)/2, (frameHeight - 603)/2, 732, 603, null);
+    		g2d.drawString("Use left mouse button place tupacs in order to trap boofpac.", frameWidth / 2 - 180, frameHeight/2 - 250);   
+    		g2d.drawString("Click with left mouse button to proceed to difficulty selection.", frameWidth / 2 - 150, frameHeight/2 + 250);                
+    		g2d.drawString("Click the right mouse button to quit.", frameWidth / 2 - 130, frameHeight/2 + 270);
     		g2d.setColor(Color.white);
     		break;
     		case OPTIONS:
-                //...
+    		g2d.drawImage(menuImg, (frameWidth - 732)/2, (frameHeight - 603)/2, 732, 603, null);
+    		g2d.drawString("Select your difficulty. (How many tupacs to start with)", frameWidth / 2 - 180, frameHeight/2 - 250);
+    		g2d.drawString("4                                 7                                 10", frameWidth / 2 - 155, frameHeight/2 + 5);
+
     		break;
     		case GAME_CONTENT_LOADING:
     		g2d.setColor(Color.white);
@@ -157,12 +163,12 @@ public class Framework extends Canvas{
     	}
     }
 
-    private void newGame()
+    private void newGame(int initTupacs)
     {
     	gameTime = 0;
     	lastTime = System.nanoTime();
 
-    	game = new Game();
+    	game = new Game(initTupacs);
     }
 
     private void restartGame()
@@ -201,30 +207,6 @@ public class Framework extends Canvas{
     }
 
     /**
-     * This method is called when keyboard key is released.
-     * 
-     * @param e KeyEvent
-     */
-    @Override
-    public void keyReleasedFramework(KeyEvent e)
-    {
-    	switch (gameState)
-    	{
-    		case GAMEOVER:
-    		if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
-    			System.exit(0);
-    		else if(e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_ENTER)
-    			restartGame();
-    		break;
-    		case PLAYING:
-    		case MAIN_MENU:
-    		if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
-    			System.exit(0);
-    		break;
-    	}
-    }
-
-    /**
      * This method is called when mouse button is clicked.
      * 
      * @param e MouseEvent
@@ -234,9 +216,26 @@ public class Framework extends Canvas{
     {
     	switch (gameState)
     	{
+    		case GAMEOVER:
+    		if(e.getButton() == MouseEvent.BUTTON1)
+    			restartGame();
+    		else if(e.getButton() == MouseEvent.BUTTON2)
+    			System.exit(0);
+    		break;
+    		case OPTIONS:
+    		if(e.getButton() == MouseEvent.BUTTON1){
+    			if(e.getX()<frameWidth / 2 - 145)
+    				newGame(4);
+    			else if(e.getX()<frameWidth / 2 - 100)
+    				newGame(10);
+    			else
+    				newGame(7);
+    		}break;
     		case MAIN_MENU:
     		if(e.getButton() == MouseEvent.BUTTON1)
-    			newGame();
+    			gameState = GameState.OPTIONS;
+    		else
+    			System.exit(0);
     		break;
     	}
     }

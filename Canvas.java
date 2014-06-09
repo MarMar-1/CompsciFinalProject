@@ -13,7 +13,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
-public class Canvas extends JPanel implements MouseListener{
+public abstract class Canvas extends JPanel implements MouseListener{
 
 	private static boolean[] mouseState = new boolean[3];
 
