@@ -218,7 +218,13 @@ public class Framework extends Canvas{
     	{
     		case GAMEOVER:
     		if(e.getButton() == MouseEvent.BUTTON1)
-    			restartGame();
+    			this.restartGame();
+    		else if(e.getButton() == MouseEvent.BUTTON2)
+    			System.exit(0);
+    		break;
+    		case VICTORY:
+    		if(e.getButton() == MouseEvent.BUTTON1)
+    			this.restartGame();
     		else if(e.getButton() == MouseEvent.BUTTON2)
     			System.exit(0);
     		break;

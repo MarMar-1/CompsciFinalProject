@@ -122,7 +122,11 @@ public class Game{
 
 		score = 120 - initTupacs;
 
+		boofpacY = boofpacX = 5;
+
 		lastTimeClicked = 0;
+
+		tupacs = new boolean [11][11];
 
 		initWeights();
 
